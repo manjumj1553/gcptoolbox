@@ -114,7 +114,7 @@ resource "google_compute_instance" "default" {
 
   # This is copy the the SSH public Key to enable the SSH Key based authentication
   metadata = {
-    ssh-keys = "${var.user}:${file(var.publickeypath)}"
+    ssh-keys = "${var.username}:${file(var.publickeypath)}"
   }
 
   provisioner "remote-exec" {
