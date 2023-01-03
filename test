@@ -17,13 +17,11 @@ function get_project_number() {
     local __resultvar=$1
     local PRO=$2
     VALUE=$(gcloud projects list --filter="project_id=$PRO" --format="value(PROJECT_NUMBER)" | xargs)
-    ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
     eval $__resultvar="'$VALUE'"
 }
 
 function get_project_user() {
     local __resultvar=$1
-    ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
     VALUE=$(gcloud config list --format='text(core.account)' | sed "s/^.*: //g;s/@.*$//g")
     eval $__resultvar="'$VALUE'"
 }
@@ -70,7 +68,7 @@ function evalTest() {
 # END DON'T REMOVE FROM test script.
 
 
-USER=manjuan
+USER="manjuan"
 get_project_id PROJECT
 gcloud services enable cloudresourcemanager.googleapis.com --project=$PROJECT
 get_project_number PROJECT_NUMBER $PROJECT
@@ -82,10 +80,7 @@ gcloud config set project ${PROJECT}
 get_project_user USER 
 
 terraform init
-
-
-terraform apply -auto-approve -var project_id="${PROJECT}" -var project_number="${PROJECT_NUMBER}" -var region="${REGION}" -var zone="${ZONE}" -var basename="${BASENAME}" -var username="${USER}" 
-
+terraform apply -auto-approve -var project_id="${PROJECT}" -var project_number="${PROJECT_NUMBER}" -var region="${REGION}" -var zone="${ZONE}" -var basename="${BASENAME}" -var username="manjuan" 
 
 section_open "Test Instance"
     evalTest 'gcloud compute instances describe $BASENAME-instance --zone="$ZONE" --format="value(name)"'  $BASENAME-instance
