@@ -70,7 +70,7 @@ function evalTest() {
 # END DON'T REMOVE FROM test script.
 
 
-USER="manjuan"
+USER=manjuan
 get_project_id PROJECT
 gcloud services enable cloudresourcemanager.googleapis.com --project=$PROJECT
 get_project_number PROJECT_NUMBER $PROJECT

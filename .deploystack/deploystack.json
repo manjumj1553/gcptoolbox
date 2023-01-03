@@ -12,11 +12,4 @@
 	"hard_settings":{
 		"basename":"jump-server-vm"
 	}
-	"custom_settings":[
-	{	
-		"name":"username",
-		"description":"Enter your username for the sshkey", 
-		"default": "manjuan"
-	}
-	]
 }
