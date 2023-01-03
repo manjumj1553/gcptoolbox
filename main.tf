@@ -74,7 +74,7 @@ resource "google_compute_instance" "default" {
   }
   labels = {
     env        = "dev"
-    app        = "demoSapJump"
+    app        = "demosapjump"
     created_by = "terraform"
   }
 
@@ -112,7 +112,7 @@ module "agent_policy" {
   group_labels = [
     {
     	env        = "dev"
-    	app        = "demoSapJump"
+    	app        = "demosapjump"
     	created_by = "terraform"
     }
   ]
