@@ -30,6 +30,16 @@ variable "basename" {
   type = string
 }
 
+variable "privatekeypath" {
+    type = string
+    default = "~/.ssh/id_rsa"
+}
+
+variable "publickeypath" {
+    type = string
+    default = "~/.ssh/id_rsa.pub"
+}
+
 locals {
   sacompute = "${var.project_number}-compute@developer.gserviceaccount.com"
 }
@@ -59,6 +69,12 @@ resource "random_id" "instance_id" {
   byte_length = 8
 }
 
+# We create a public IP address for our google compute instance to utilize
+resource "google_compute_address" "static" {
+  name = "jump-vm-public-address"
+  project = var.project
+  region = var.region
+}
 
 // A Single Compute Engine instance
 resource "google_compute_instance" "default" {
@@ -66,6 +82,8 @@ resource "google_compute_instance" "default" {
   name         = "${var.basename}-instance"
   machine_type = "n1-standard-2"
   zone         = var.zone
+
+  tags = ["http-server","https-server"]
 
   boot_disk {
     initialize_params {
@@ -81,11 +99,32 @@ resource "google_compute_instance" "default" {
   network_interface {
     network = "pso-sap-vpc"
     subnetwork = "sap-sn-01"
-
     access_config {
-      // Include this section to give the VM an external ip address
+	    nat_ip = google_compute_address.static.address
     }
   }
+
+  # This is copy the the SSH public Key to enable the SSH Key based authentication
+  metadata = {
+    ssh-keys = "${var.user}:${file(var.publickeypath)}"
+  }
+
+  provisioner "remote-exec" {
+    connection {
+      host        = google_compute_address.static.address 
+      type        = "ssh"
+      user        = var.user
+      timeout     = "500s"
+      private_key = file(var.privatekeypath)
+    }
+    inline = [
+      "sudo yum -y install unzip",
+      "sudo yum -y install git",
+      "sudo yum -y install google-cloud-secret-manager",
+      "sudo yum -y install python3",
+    ]
+  }
+
   service_account {
     // Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     // This non production example uses the default compute service account.
