@@ -1,6 +1,0 @@
-zone = "us-central1-a"
-project_id = "sap-iac-test"
-project_number = "811811474621"
-basename = "jump-server-vm" 
-region = "us-central1" 
-username = "manjuan"
