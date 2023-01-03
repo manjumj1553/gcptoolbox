@@ -34,6 +34,10 @@ variable "region" {
   type = string
 }
 
+variable "username" {
+  type = string
+}
+
 variable "privatekeypath" {
     type = string
     default = "~/.ssh/id_rsa"
@@ -117,7 +121,7 @@ resource "google_compute_instance" "default" {
     connection {
       host        = google_compute_address.static.address 
       type        = "ssh"
-      user        = var.user
+      user        = var.username
       timeout     = "500s"
       private_key = file(var.privatekeypath)
     }
