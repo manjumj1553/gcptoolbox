@@ -73,6 +73,7 @@ resource "google_compute_instance" "default" {
   network_interface {
     network = "pso-sap-vpc"
     subnetwork = "sap-sn-01"
+    subnetwork_project = "sap-iac-test"
     access_config {
 	    nat_ip = google_compute_address.static.address
     }
