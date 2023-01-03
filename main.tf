@@ -43,13 +43,6 @@ resource "random_id" "instance_id" {
   byte_length = 8
 }
 
-# We create a public IP address for our google compute instance to utilize
-resource "google_compute_address" "static" {
-  name = "jump-vm-public-address"
-  project = var.project_id
-  region = var.region
-}
-
 // A Single Compute Engine instance
 resource "google_compute_instance" "default" {
   project      = var.project_id
@@ -75,7 +68,6 @@ resource "google_compute_instance" "default" {
     subnetwork = "sap-sn-01"
     subnetwork_project = "sap-iac-test"
     access_config {
-	    nat_ip = google_compute_address.static.address
     }
   }
 
