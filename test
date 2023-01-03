@@ -72,7 +72,7 @@ BASENAME=jump-server-vm
 gcloud config set project ${PROJECT}
 
 terraform init
-terraform apply -auto-approve -var project_id="${PROJECT}" -var project_number="${PROJECT_NUMBER}" -var zone="${ZONE}" -var basename="${BASENAME}" 
+terraform apply -auto-approve -var project_id="${PROJECT}" -var project_number="${PROJECT_NUMBER}" -var region="${REGION}" -var zone="${ZONE}" -var basename="${BASENAME}" 
 
 
 section_open "Test Instance"

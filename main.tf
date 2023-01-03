@@ -30,6 +30,10 @@ variable "basename" {
   type = string
 }
 
+variable "region" {
+  type = string
+}
+
 variable "privatekeypath" {
     type = string
     default = "~/.ssh/id_rsa"
@@ -72,7 +76,7 @@ resource "random_id" "instance_id" {
 # We create a public IP address for our google compute instance to utilize
 resource "google_compute_address" "static" {
   name = "jump-vm-public-address"
-  project = var.project
+  project = var.project_id
   region = var.region
 }
 
