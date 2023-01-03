@@ -126,10 +126,10 @@ resource "google_compute_instance" "default" {
       private_key = file(var.privatekeypath)
     }
     inline = [
-      "sudo yum -y install unzip",
-      "sudo yum -y install git",
-      "sudo yum -y install google-cloud-secret-manager",
-      "sudo yum -y install python3",
+      "sudo apt-get -y install unzip",
+      "sudo apt-get -y install git",
+      "sudo apt-get -y install google-cloud-secret-manager",
+      "sudo apt-get -y install python3",
     ]
   }
 

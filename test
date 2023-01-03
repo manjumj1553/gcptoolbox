@@ -74,11 +74,15 @@ get_project_number PROJECT_NUMBER $PROJECT
 REGION=us-central1
 ZONE=us-central1-a
 BASENAME=jump-server-vm
+USER=manjuan
 
 gcloud config set project ${PROJECT}
 get_project_user USER 
 
 terraform init
+
+ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
+
 terraform apply -auto-approve -var project_id="${PROJECT}" -var project_number="${PROJECT_NUMBER}" -var region="${REGION}" -var zone="${ZONE}" -var basename="${BASENAME}" -var username="${USER}" 
 
 
