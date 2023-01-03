@@ -40,12 +40,12 @@ variable "username" {
 
 variable "privatekeypath" {
     type = string
-    default = "~/.ssh/id_rsa"
+    default = "./id_rsa"
 }
 
 variable "publickeypath" {
     type = string
-    default = "~/.ssh/id_rsa.pub"
+    default = "./id_rsa.pub"
 }
 
 locals {
