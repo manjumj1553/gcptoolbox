@@ -20,12 +20,6 @@ function get_project_number() {
     eval $__resultvar="'$VALUE'"
 }
 
-function get_project_user() {
-    local __resultvar=$1
-    VALUE=$(gcloud config list --format='text(core.account)' | sed "s/^.*: //g;s/@.*$//g")
-    eval $__resultvar="'$VALUE'"
-}
-
 # DISPLAY HELPERS
 function section_open() {
     section_description=$1
@@ -67,8 +61,6 @@ function evalTest() {
 }
 # END DON'T REMOVE FROM test script.
 
-
-USER="manjuan"
 get_project_id PROJECT
 gcloud services enable cloudresourcemanager.googleapis.com --project=$PROJECT
 get_project_number PROJECT_NUMBER $PROJECT
@@ -77,10 +69,9 @@ ZONE=us-central1-a
 BASENAME=jump-server-vm
 
 gcloud config set project ${PROJECT}
-get_project_user USER 
 
 terraform init
-terraform apply -auto-approve -var project_id="${PROJECT}" -var project_number="${PROJECT_NUMBER}" -var region="${REGION}" -var zone="${ZONE}" -var basename="${BASENAME}" -var username="manjuan" 
+terraform apply -auto-approve -var project_id="${PROJECT}" -var project_number="${PROJECT_NUMBER}" -var region="${REGION}" -var zone="${ZONE}" -var basename="${BASENAME}"
 
 section_open "Test Instance"
     evalTest 'gcloud compute instances describe $BASENAME-instance --zone="$ZONE" --format="value(name)"'  $BASENAME-instance

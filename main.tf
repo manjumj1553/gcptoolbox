@@ -78,27 +78,6 @@ resource "google_compute_instance" "default" {
     }
   }
 
-  # This is copy the the SSH public Key to enable the SSH Key based authentication
-  metadata = {
-    ssh-keys = "${var.username}:${file(var.publickeypath)}"
-  }
-
-  provisioner "remote-exec" {
-    connection {
-      host        = google_compute_address.static.address 
-      type        = "ssh"
-      user        = var.username
-      timeout     = "500s"
-      private_key = file(var.privatekeypath)
-    }
-    inline = [
-      "sudo apt-get -y install unzip",
-      "sudo apt-get -y install git",
-      "sudo apt-get -y install google-cloud-secret-manager",
-      "sudo apt-get -y install python3",
-    ]
-  }
-
   service_account {
     // Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     // This non production example uses the default compute service account.
