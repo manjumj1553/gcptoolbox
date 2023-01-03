@@ -1,0 +1,5 @@
+
+
+CONGRATS!!!!!!!  
+You have configured a project and created a Compute Engine instance with the 
+Ops Agent already configured.
